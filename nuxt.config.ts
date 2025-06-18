@@ -1,5 +1,6 @@
 export default defineNuxtConfig({
   ssr: true,
+
   app: {
     head: {
       charset: "utf-8",
@@ -14,6 +15,10 @@ export default defineNuxtConfig({
 
   css: [
     "@/assets/scss/bundle.scss",
+  ],
+
+  modules: [
+    '@pinia/nuxt',
   ],
 
   nitro: {
@@ -37,5 +42,5 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: '2025-05-15',
-  devtools: { enabled: true }
+  devtools: { enabled: true },
 })

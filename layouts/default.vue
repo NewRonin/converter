@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <Header class="header" @toFooter="scrollToFooter" />
+    <Header class="header" />
       <div class="content">
         <slot />
       </div>
