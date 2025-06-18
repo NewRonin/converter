@@ -1,0 +1,41 @@
+:root {
+  --background: #F5F7FA;
+  --surface: #FFFFFF;
+  --elevation: #E9EDF3;
+
+  --text-primary: #1E1E1E;
+  --text-secondary: #5F6B7A;
+  --text-muted: #A0AAB9;
+
+  --primary: #2563EB;
+  --primary-light: #EFF6FF;
+  --primary-dark: #1E40AF;
+
+  --accent: #10B981; 
+  --accent-light: #D1FAE5;
+  --accent-dark: #065F46;
+
+  --error: #DC2626;
+  --error-light: #FEE2E2;
+
+  --success: #16A34A;
+  --success-light: #DCFCE7;
+
+  --warning: #F59E0B;
+  --warning-light: #FEF3C7;
+
+  --inactive: rgba(0, 0, 0, 0.1);
+  --disabled: #D1D5DB;
+  --border: #DDE3EB;
+  --shadow: rgba(16, 24, 40, 0.06);
+
+  --input-bg: #FFFFFF;
+  --input-border: #CBD5E1;
+  --input-focus: #2563EB;
+
+  --currency-card-bg: #FFFFFF;
+  --currency-card-hover: #F0F4FF;
+  --currency-selected: #DBEAFE;
+
+  --gradient-primary: linear-gradient(135deg, #2563EB 0%, #10B981 100%);
+}
