@@ -19,16 +19,44 @@
           </div>
         </div>
       </div>
+      <div class="currency-select">
+        <InputDropdown 
+            class="container-filters-item"
+            v-model="currentCurrency"
+            :optionsList="currencyOptions || undefined"
+            label="Валюта"
+        />
+      </div>
     </nav>
   </header>
 </template>
 
 <script setup lang="ts">
+import { currencyList } from "@/types/currency"
+import { useMainStore } from "@/stores/main";
+
+type CurrencyItem = {
+  id: (typeof currencyList)[number]
+  name: string
+}
+
+const store = useMainStore()
 
 const links: HeaderLink[] = [
   { name: "Главная", link: "/", enabled: true },
   { name: "Конвертер", link: "/convert", enabled: true },
 ];
+
+const currentCurrency = ref()
+const currencyOptions: CurrencyItem[] = currencyList.map((item) => ({
+  id: item,
+  value: item,
+  name: item.toUpperCase(),
+}))
+
+watch (currentCurrency, (newValue) => {
+    store.setCurrency(currentCurrency.value)
+})
 </script>
 
 <style scoped lang="scss">

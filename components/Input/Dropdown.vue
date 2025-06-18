@@ -57,9 +57,9 @@ function updateSelect() {
     font-size: 1.15rem;
     padding: 0.675em 6em 0.675em 1em;
     background-color: var(--app-white);
-    border: 1px solid var(--app-grey);
+    border: 1px solid var(--border);
     border-radius: 0.25rem;
-    color: var(--app-black);
+    color: var(--text-primary);
 
     .select-block-option[default] {
       display: none;
@@ -73,7 +73,7 @@ function updateSelect() {
     pointer-events: none;
     border-left: 0.3rem solid transparent;
     border-right: 0.3rem solid transparent;
-    border-top: 0.3rem solid var(--app-black);
+    border-top: 0.3rem solid var(--text-primary);
     top: 50%;
   }
 }
