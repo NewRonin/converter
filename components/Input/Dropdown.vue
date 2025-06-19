@@ -4,14 +4,15 @@
       class="select-block-picker"
       :disabled="props.disabled"
       :autocomplete="props.autocomplete"
-      @change="updateSelect"
       v-model="selectedItem"
+      @change="updateSelect"
     >
       <option value="" class="select-block-option" default selected>
         {{ props.label }}
       </option>
       <option
         v-for="option in optionsList"
+        :key="option.value"
         :value="option.value"
         class="select-block-option"
       >
@@ -23,25 +24,22 @@
 
 <script setup lang="ts">
 const props = defineProps({
-  label: {
-    type: String,
-    required: false,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  autocomplete: {
-    type: String,
-    default: "on",
-  },
-  optionsList: {
-    type: Array<DropdownOption>,
-    required: false,
-  },
+  label: { type: String, required: false },
+  disabled: { type: Boolean, default: false },
+  autocomplete: { type: String, default: "on" },
+  optionsList: { type: Array as () => DropdownOption[], required: false },
+  modelValue: { type: [String, Number], default: "" }
 });
-const selectedItem = ref<String | Number>("");
+
 const emit = defineEmits(["update:modelValue"]);
+
+const selectedItem = ref(props.modelValue);
+
+watch(() => props.modelValue, (val) => {
+  if (val !== selectedItem.value) {
+    selectedItem.value = val;
+  }
+});
 
 function updateSelect() {
   emit("update:modelValue", selectedItem.value);
@@ -57,7 +55,7 @@ function updateSelect() {
     width: 100%;
     font-size: 1.15rem;
     padding: 0.675em 6em 0.675em 1em;
-    background: var(--primary-light);
+    background: var(--background);
     border: 1px solid var(--border);
     border-radius: 0.25rem;
     color: var(--text-primary);
@@ -86,5 +84,12 @@ function updateSelect() {
     border-top: 0.3rem solid var(--text-primary);
     top: 50%;
   }
+}
+
+:deep(select) {
+  appearance: none; 
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 0.6rem;
 }
 </style>
