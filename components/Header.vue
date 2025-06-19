@@ -5,7 +5,6 @@
         <div
           v-for="link in links"
           :class="[link.enabled || link.custom ? 'link' : 'link-disabled']"
-          @click="headerClickHandler($event, link)"
         >
           <NuxtLink
             v-if="!link.custom"
@@ -86,7 +85,7 @@ header {
 
     border-radius: 0 0 2rem 2rem;
     background: var(--background);
-    color: var(--primary-dark);
+    color: var(--primary);
 
     -webkit-box-shadow: 0px 4px 4px 0px #00000040;
     -moz-box-shadow: 0px 4px 4px 0px #00000040;
@@ -133,7 +132,7 @@ header {
 .link {
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
   @include hover {
-    color: var(--main);
+    color: var(--primary-dark);
     cursor: pointer;
   }
 

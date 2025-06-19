@@ -31,7 +31,8 @@ const rows = computed(() => {
     .filter(([pair]) => pair.endsWith(`-${store.selectedCurrency}`))
     .map(([pair, rate]) => {
       const currency = pair.split("-")[0].toUpperCase();
-      return { currency, rate };
+      const fixedRate = Number(rate)?.toFixed?.(2) ?? 0.00;
+      return { currency,  rate: fixedRate};
     });
 });
 </script>
