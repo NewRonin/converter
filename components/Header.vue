@@ -34,11 +34,6 @@
 import { currencyList } from "@/types/currency"
 import { useMainStore } from "@/stores/main";
 
-type CurrencyItem = {
-  id: (typeof currencyList)[number]
-  name: string
-}
-
 const store = useMainStore()
 
 const links: HeaderLink[] = [
@@ -46,8 +41,8 @@ const links: HeaderLink[] = [
   { name: "Конвертер", link: "/convert", enabled: true },
 ];
 
-const currentCurrency = ref()
-const currencyOptions: CurrencyItem[] = currencyList.map((item) => ({
+const currentCurrency = ref(store.selectedCurrency)
+const currencyOptions: DropdownOption[] = currencyList.map((item) => ({
   id: item,
   value: item,
   name: item.toUpperCase(),
@@ -68,14 +63,10 @@ header {
   justify-content: center;
   align-items: flex-start;
 
-  @media (max-width: 1400px) {
-    justify-content: flex-start;
-  }
-
   nav {
     z-index: 100;
     position: fixed;
-    width: 138rem;
+    width: 100%;
     padding: 2rem 6.4rem;
 
     display: flex;
@@ -84,33 +75,9 @@ header {
     align-items: center;
 
     border-radius: 0 0 2rem 2rem;
-    background: var(--background);
-    color: var(--primary);
+    background: var(--primary);
+    color: var(--primary-light);
 
-    -webkit-box-shadow: 0px 4px 4px 0px #00000040;
-    -moz-box-shadow: 0px 4px 4px 0px #00000040;
-    box-shadow: 0px 4px 4px 0px #00000040;
-
-    @media (max-width: 1400px) {
-      width: 100%;
-    }
-
-    @media (max-width: 833px) {
-      padding: 2rem;
-    }
-  }
-}
-
-.logo {
-  width: auto;
-  height: 4rem;
-  object-fit: contain;
-  filter: brightness(0) saturate(100%) invert(13%) sepia(1%) saturate(0%)
-    hue-rotate(116deg) brightness(97%) contrast(97%);
-  user-select: none;
-
-  @media (max-width: 833px) {
-    height: 2rem;
   }
 }
 
@@ -123,41 +90,21 @@ header {
 
   font-size: 1.6rem;
   font-weight: 600;
-
-  @media (max-width: 833px) {
-    display: none;
-  }
 }
 
 .link {
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
   @include hover {
-    color: var(--primary-dark);
+    color: var(--accent-light);
     cursor: pointer;
-  }
-
-  @media (max-width: 833px) {
-    position: relative;
-    width: 100%;
-    text-align: center;
-
-    &:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      display: block;
-      bottom: -2.4rem;
-      left: 50%;
-      transform: translate(-50%, 0);
-      width: 90%;
-      height: .1rem;
-      background-color: var(--primary-dark);
-      opacity: 0.15;
-      border-radius: 95px;
-    }
   }
 }
 
 .link-disabled {
   display: none;
+}
+
+:deep(.select-block-picker){
+  background: var(--primary-light);
 }
 </style>

@@ -1,140 +1,89 @@
 <template>
-  <div class="converter-container">
-    <main>
-      <div class="converter-controls-container">
-        <div class="converter-field-container">
-          <label class="converter-label">Из валюты</label>
-          <select v-model="fromCurrency" class="converter-select">
-            <option
-              v-for="option in currencyOptions"
-              :key="option.id"
-              :value="option.id"
-            >
-              {{ option.name }}
-            </option>
-          </select>
-
-          <InputMain
-            v-model="fromAmount"
-            type="number"
-            placeholder="Введите сумму"
-            :required="true"
-            @input="onFromAmountChange"
-            class="converter-input"
-          />
-        </div>
-
-        <div class="converter-field-container">
-          <label class="converter-label">В валюту</label>
-          <select v-model="toCurrency" class="converter-select">
-            <option
-              v-for="option in currencyOptions"
-              :key="option.id"
-              :value="option.id"
-            >
-              {{ option.name }}
-            </option>
-          </select>
-
-          <InputMain
-            v-model="toAmount"
-            type="number"
-            placeholder="Результат"
-            :required="true"
-            @input="onToAmountChange"
-            class="converter-input"
-          />
-        </div>
-      </div>
-
-      <Table
-        v-if="!store.loading"
-        :headers="headers"
-        :rows="conversionRows"
-        class="currency-table"
-      />
-    </main>
+  <div class="input-container">
+    <label class="text-input-label">
+      <span>
+        {{ label }}
+        <span v-if="required" class="required"> * </span>
+      </span>
+    </label>
+    <input
+      v-model="inputValue"
+      :type="type"
+      :placeholder="placeholder"
+      class="text-input"
+      :class="[errorMessage ? 'has-error' : '']"
+      ref="input"
+      :data-maska="data_mask"
+    />
   </div>
 </template>
 
-<script setup lang="ts">
-import { useMainStore } from "@/stores/main";
-import Table from "@/components/common/Table.vue";
+<script setup>
+import { vMaska } from 'maska'
 
-const store = useMainStore();
-store.getCurrency();
+const props = defineProps({
+  label: { type: String, required: true },
+  modelValue: { type: [String, Number], default: '' },
+  type: { type: String, default: 'text' },
+  placeholder: { type: String, default: '' },
+  required: { type: Boolean, default: false },
+  data_mask: { type: String, required: false }
+})
 
-const currencyList = ["usd", "rub", "eur", "brl", "kzt", "idr"] as const;
-type Currency = typeof currencyList[number];
+const emit = defineEmits(['update:modelValue'])
 
-const currencyOptions = currencyList.map((c) => ({
-  id: c,
-  name: c.toUpperCase(),
-}));
-
-const fromCurrency = ref<Currency>("usd");
-const toCurrency = ref<Currency>("rub");
-
-const fromAmount = ref<string>("1");
-const toAmount = ref<string>("0");
-
-const headers = [
-  { name: "Валюта", value: "currency" },
-  { name: "Курс", value: "rate" },
-];
-
-const conversionRows = computed(() => {
-  if (!store.rates) return [];
-
-  return currencyList.map((cur) => {
-    const pair: `${Currency}-${Currency}` = `${cur}-${toCurrency.value}`;
-    const rate = store.rates[pair] ?? 0;
-    return {
-      currency: cur.toUpperCase(),
-      rate: rate.toFixed(4),
-    };
-  });
-});
-
-function getRate(from: Currency, to: Currency): number {
-  if (from === to) return 1;
-  const pair1: `${Currency}-${Currency}` = `${from}-${to}`;
-  const pair2: `${Currency}-${Currency}` = `${to}-${from}`;
-  if (store.rates[pair1] !== undefined) {
-    return store.rates[pair1];
-  } else if (store.rates[pair2] !== undefined) {
-    return 1 / store.rates[pair2];
-  }
-  return 0;
-}
-
-function onFromAmountChange() {
-  const fromNum = parseFloat(fromAmount.value) || 0;
-  const rate = getRate(fromCurrency.value, toCurrency.value);
-  toAmount.value = (fromNum * rate).toFixed(4);
-}
-
-function onToAmountChange() {
-  const toNum = parseFloat(toAmount.value) || 0;
-  const rate = getRate(fromCurrency.value, toCurrency.value);
-  if (rate === 0) {
-    fromAmount.value = "0";
-  } else {
-    fromAmount.value = (toNum / rate).toFixed(4);
-  }
-}
-
-watch([fromCurrency, toCurrency], () => {
-  onFromAmountChange();
-});
+const inputValue = ref(props.modelValue)
 
 watch(
-  () => store.rates,
-  (newVal) => {
-    if (Object.keys(newVal).length) {
-      onFromAmountChange();
+  () => props.modelValue,
+  (val) => {
+    if (val !== inputValue.value) {
+      inputValue.value = val
     }
   },
   { immediate: true }
-);
+)
+
+watch(inputValue, (val) => {
+  emit('update:modelValue', val)
+})
+
+const errorMessage = ref(false)
 </script>
+
+<style scoped lang="scss">
+.input-container {
+  width: 100%;
+  font-size: 1.4rem;
+}
+
+.text-input-label {
+  display: block;
+  margin-bottom: 0.8rem;
+}
+
+.text-input {
+  width: 100%;
+  padding: 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  background-color: transparent;
+
+  &:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  &::placeholder {
+    color: var(--inactive);
+  }
+}
+
+.text-input.has-error {
+  border-color: var(--error);
+}
+
+.required {
+  color: var(--error);
+}
+</style>

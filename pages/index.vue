@@ -1,17 +1,19 @@
 <template>
-  <div class="page-container">
-    <main>
-      <div class="title-container">
-        {{ `Курсы валют к ${store.selectedCurrency.toUpperCase()}` }}
-      </div>
-      <Table
-        v-if="!store.loading"
-        :headers="headers"
-        :rows="rows"
-        class="currency-table"
-      />
-    </main>
-  </div>
+  <Transition name="fade">
+    <div class="page-container">
+      <main>
+        <div class="title-container">
+          {{ `Курсы валют к ${store.selectedCurrency.toUpperCase()}` }}
+        </div>
+        <Table
+          v-if="!store.loading"
+          :headers="headers"
+          :rows="rows"
+          class="currency-table"
+        />
+      </main>
+    </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">

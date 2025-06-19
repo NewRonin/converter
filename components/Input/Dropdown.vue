@@ -51,12 +51,13 @@ function updateSelect() {
 <style scoped lang="scss">
 .select-block {
   position: relative;
+  border-radius: 0.6rem;
   .select-block-picker {
     appearance: none;
     width: 100%;
     font-size: 1.15rem;
     padding: 0.675em 6em 0.675em 1em;
-    background-color: var(--app-white);
+    background: var(--primary-light);
     border: 1px solid var(--border);
     border-radius: 0.25rem;
     color: var(--text-primary);
@@ -64,6 +65,15 @@ function updateSelect() {
     .select-block-option[default] {
       display: none;
     }
+
+    &:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  &::placeholder {
+    color: var(--inactive);
+  }
   }
   &::after {
     position: absolute;

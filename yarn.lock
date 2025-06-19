@@ -3475,10 +3475,10 @@ magicast@^0.3.5:
     "@babel/types" "^7.25.4"
     source-map-js "^1.2.0"
 
-maska@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/maska/-/maska-3.1.1.tgz#cd2857c70d33a23305f0396dffbb951966a328b2"
-  integrity sha512-68ZJfZ6/YANwv7CufbQmcCNoHdJnIRxuQgZtSFZe5ltlmZ15ZdA01siUGLh9EfaUX65DN0l/A7g+o2xjTICeGQ==
+maska@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/maska/-/maska-2.1.0.tgz#54a3ed5ce9cd3b873735cc30b5480366fcc7c2a0"
+  integrity sha512-GuTAPB834NsG5toC3w+ALl9fKWq6VfDbi6UTYBMKgV8AqFQViaPXzbsLN5Fdn7yblA8bJjUiE9lgu8fXc+rNLQ==
 
 math-intrinsics@^1.1.0:
   version "1.1.0"
